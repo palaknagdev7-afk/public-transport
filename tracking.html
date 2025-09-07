@@ -7,11 +7,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    body.tracking-page .hero {
+    body.tracking-page {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      color: #0f172a;
+    }
+
+    .hero {
       background: linear-gradient(135deg, #0b76ef1a, #1db9541a);
       text-align: center;
-      padding: 60px 20px;
+      padding: 80px 20px 40px;
+      border-bottom-left-radius: 50% 20%;
+      border-bottom-right-radius: 50% 20%;
     }
+    .hero h1 {
+      font-size: 36px;
+      color: #0b76ef;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 16px;
+      color: #555;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
     .search-panel {
       display: flex;
       flex-wrap: wrap;
@@ -21,8 +42,8 @@
       max-width: 900px;
       background: #fff;
       padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     }
     .search-group {
       display: flex;
@@ -36,9 +57,9 @@
     }
     .search-group input,
     .search-group select {
-      padding: 12px;
+      padding: 14px;
       border: 1px solid #d1d5db;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 14px;
     }
     .btn-primary {
@@ -46,8 +67,8 @@
       color: #fff;
       font-weight: 600;
       border: none;
-      padding: 14px 25px;
-      border-radius: 10px;
+      padding: 14px 30px;
+      border-radius: 12px;
       cursor: pointer;
       transition: 0.3s;
       align-self: center;
@@ -60,64 +81,64 @@
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
       max-width: 1000px;
-      margin: 40px auto;
+      margin: 40px auto 80px;
     }
     .bus-card {
       background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transition: transform 0.3s;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
       text-align: center;
     }
-    .bus-card:hover { transform: translateY(-5px); }
-    .bus-card h3 { margin-bottom: 10px; color: #0b76ef; }
-    .bus-card p { margin: 6px 0; font-size: 14px; color: #555; }
+    .bus-card:hover { 
+      transform: translateY(-6px); 
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    }
+    .bus-card h3 { 
+      margin-bottom: 12px; 
+      color: #0b76ef; 
+      font-size: 20px;
+    }
+    .bus-card p { 
+      margin: 6px 0; 
+      font-size: 14px; 
+      color: #555; 
+    }
     .status {
       font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 8px;
+      padding: 6px 14px;
+      border-radius: 12px;
       display: inline-block;
       color: #fff;
+      margin-top: 10px;
+      font-size: 13px;
     }
     .on-time { background: #1db954; }
     .delayed { background: #ff9800; }
     .cancelled { background: #b30000; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #6b7280;
+      border-top: 1px solid #e5e7eb;
+      margin-top: 60px;
+    }
+
+    @media(max-width: 600px) {
+      .search-panel { padding: 20px; }
+      .bus-card { padding: 20px; }
+    }
   </style>
 </head>
 <body class="tracking-page">
 
-  <!-- HEADER -->
-  <header>
-    <div class="container">
-      <nav>
-        <div class="brand">🚍 BusTrack</div>
-        <div class="hamburger" onclick="toggleMenu()">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </nav>
-      <div class="mobile-menu" id="mobileMenu">
-        <a href="index.html">Home</a>
-        <a href="tracking.html">Live Tracking</a>
-        <a href="booking.html">Booking</a>
-        <a href="sms.html">SMS Info</a>
-        <a href="eta.html">ETA Notifications</a>
-        <a href="alerts.html">Live Alerts</a>
-        <a href="drivers.html">Driver Info</a>
-        <a href="routes.html">Routes & Staff</a>
-        <a href="testimonials.html">Testimonials</a>
-        <a href="contact.html">Contact</a>
-        <a href="admin.html">Admin Login</a>
-      </div>
-    </div>
-  </header>
-
   <!-- HERO -->
   <section class="hero">
     <h1>Live Bus Tracking</h1>
-    <p>Track your bus in real-time by Bus Number, Route, or Destination.</p>
+    <p>Track your bus in real-time by Bus Number, Route, or Destination stop. Always know where your bus is!</p>
   </section>
 
   <!-- SEARCH PANEL -->
@@ -170,7 +191,6 @@
         <p><strong>Current Location:</strong> Riverside</p>
         <span class="status cancelled">Cancelled</span>
       </div>
-      <!-- Add more buses dynamically -->
     </div>
   </section>
 
@@ -179,10 +199,6 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    function toggleMenu(){
-      const menu=document.getElementById("mobileMenu");
-      menu.classList.toggle("show");
-    }
   </script>
 
 </body>
