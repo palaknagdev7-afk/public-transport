@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BusTrack - SMS Fallback</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#0b76ef;
+  --secondary:#1db954;
+  --text:#0f172a;
+  --muted:#6b7280;
+  --bg:#f8fafc;
+  --white:#fff;
+  --highlight-bus:#ffe8d6;
+  --highlight-eta:#d0ebff;
+  --highlight-fare:#d4f4dd;
+  --highlight-seat:#fff2d6;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:var(--bg);color:var(--text);line-height:1.6;}
+header{background:var(--white);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:100;}
+nav{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;}
+.brand{font-weight:700;font-size:20px;color:var(--primary);}
+.hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer;}
+.hamburger span{width:25px;height:3px;background:var(--primary);border-radius:2px;transition:0.3s;}
+.mobile-menu{display:none;flex-direction:column;gap:12px;padding:15px;border-top:1px solid #eee;background:var(--white);}
+.mobile-menu.show{display:flex;}
+.hero{text-align:center;padding:60px 20px;background:linear-gradient(135deg,#1db9541a,#0b76ef1a);}
+.hero h1{font-size:36px;margin-bottom:12px;}
+.hero p{color:var(--muted);font-size:16px;margin-bottom:20px;}
+section{padding:40px 20px;max-width:1100px;margin:0 auto;}
+.sms-preview-container{display:flex;justify-content:center;margin-top:20px;}
+.sms-preview{width:320px;background:#f1f5f9;border-radius:20px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,0.1);overflow:hidden;}
+.sms-bubble{padding:15px;border-radius:12px;margin-bottom:12px;position:relative;animation:slideIn 0.5s ease;}
+.sms-bubble.bus{background:var(--highlight-bus);}
+.sms-bubble.eta{background:var(--highlight-eta);}
+.sms-bubble.fare{background:var(--highlight-fare);}
+.sms-bubble.seat{background:var(--highlight-seat);}
+@keyframes slideIn{0%{opacity:0;transform:translateX(-20px);}100%{opacity:1;transform:translateX(0);}}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:30px;}
+.card{background:var(--white);padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.08);transition:transform 0.3s;cursor:pointer;}
+.card:hover{transform:translateY(-5px);}
+.card h3{margin-bottom:12px;color:var(--primary);}
+.card p{color:var(--text);line-height:1.5;}
+.card code{display:block;background:#f1f5f9;padding:8px 12px;border-radius:8px;margin-top:10px;font-family:monospace;font-size:14px;}
+.progress-steps{display:flex;justify-content:space-between;margin-top:30px;flex-wrap:wrap;}
+.step{flex:1;min-width:150px;text-align:center;position:relative;padding-top:20px;margin-bottom:20px;}
+.step::before{content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);width:20px;height:20px;background:var(--primary);border-radius:50%;z-index:1;}
+.step::after{content:"";position:absolute;top:19px;left:50%;transform:translateX(-50%);width:100%;height:4px;background:#d1d5db;z-index:0;}
+.step:last-child::after{width:50%;background:transparent;}
+.step h4{margin-top:20px;font-size:16px;color:var(--primary);}
+.step p{color:var(--muted);font-size:14px;}
+.quick-links{display:flex;gap:15px;flex-wrap:wrap;margin-top:30px;justify-content:center;}
+.quick-links a{padding:12px 20px;background:var(--primary);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;transition:0.3s;}
+.quick-links a:hover{background:#0956c1;}
+footer{background:var(--white);border-top:1px solid #e5e7eb;text-align:center;padding:20px;color:var(--muted);margin-top:40px;}
+@media(max-width:700px){.cards{grid-template-columns:1fr;}.progress-steps{flex-direction:column;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="brand">🚍 BusTrack</div>
+      <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="tracking.html">Live Tracking</a>
+      <a href="booking.html">Booking</a>
+      <a href="sms.html">SMS Fallback</a>
+      <a href="eta.html">ETA Notifications</a>
+      <a href="alerts.html">Live Alerts</a>
+      <a href="drivers.html">Driver Info</a>
+      <a href="routes.html">Routes & Staff</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html">Admin Login</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>SMS Fallback for Low Internet</h1>
+  <p>Receive live bus info, ticket details, and ETA directly via SMS, even with limited or no internet connection.</p>
+</section>
+
+<section>
+  <h2>Sample SMS Preview</h2>
+  <div class="sms-preview-container">
+    <div class="sms-preview">
+      <div class="sms-bubble bus">Bus 101 | Route: Main St → Airport</div>
+      <div class="sms-bubble eta">ETA: 12:30 PM</div>
+      <div class="sms-bubble fare">Fare: ₹50 | Booking Code: ABC123</div>
+      <div class="sms-bubble seat">Seats Available: 5</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Step-by-Step Guide</h2>
+  <div class="progress-steps">
+    <div class="step">
+      <h4>Step 1: Send Bus Number</h4>
+      <p>Send an SMS to <strong>12345</strong> with your bus number.</p>
+    </div>
+    <div class="step">
+      <h4>Step 2: Receive SMS</h4>
+      <p>Receive live bus info including ETA, fare, and seat availability.</p>
+    </div>
+    <div class="step">
+      <h4>Step 3: Book or Cancel</h4>
+      <p>Use your booking code to confirm or cancel tickets directly via SMS.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Why SMS Fallback?</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Reliable</h3>
+      <p>Works even in areas with poor or no internet connectivity.</p>
+    </div>
+    <div class="card">
+      <h3>Quick</h3>
+      <p>Receive important bus updates instantly on your phone.</p>
+    </div>
+    <div class="card">
+      <h3>Accessible</h3>
+      <p>Can be used from any mobile phone, not just smartphones.</p>
+    </div>
+  </div>
+</section>
+
+<div class="quick-links">
+  <a href="tracking.html">Track Bus</a>
+  <a href="booking.html">Book Tickets</a>
+  <a href="alerts.html">Live Alerts</a>
+  <a href="contact.html">Support</a>
+</div>
+
+<footer>© <span id="year"></span> BusTrack | SMS Fallback</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+function toggleMenu(){document.getElementById("mobileMenu").classList.toggle("show");}
+</script>
+
+</body>
+</html>

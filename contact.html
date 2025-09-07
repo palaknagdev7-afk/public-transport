@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BusTrack - Contact Us</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#0b76ef;
+  --secondary:#1db954;
+  --text:#0f172a;
+  --muted:#6b7280;
+  --bg:#f8fafc;
+  --white:#fff;
+}
+
+/* General Styles */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:var(--bg);color:var(--text);line-height:1.6;}
+header{background:var(--white);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:100;}
+nav{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;}
+.brand{font-weight:700;font-size:20px;color:var(--primary);}
+.hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer;}
+.hamburger span{width:25px;height:3px;background:var(--primary);border-radius:2px;transition:0.3s;}
+.mobile-menu{display:none;flex-direction:column;gap:12px;padding:15px;border-top:1px solid #eee;background:var(--white);}
+.mobile-menu.show{display:flex;}
+
+section{padding:40px 20px;max-width:1200px;margin:0 auto;}
+.hero{text-align:center;padding:60px 20px;background:linear-gradient(135deg,#0b76ef1a,#1db9541a);}
+.hero h1{font-size:36px;margin-bottom:12px;}
+.hero p{color:var(--muted);font-size:16px;margin-bottom:20px;}
+
+.contact-container{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;}
+.contact-form{background:var(--white);padding:30px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);flex:1;min-width:300px;max-width:500px;}
+.contact-form h2{margin-bottom:20px;color:var(--primary);}
+.contact-form input, .contact-form textarea{width:100%;padding:12px 15px;margin-bottom:15px;border:1px solid #d1d5db;border-radius:10px;font-size:14px;}
+.contact-form button{padding:12px 20px;border:none;border-radius:10px;background:var(--primary);color:#fff;font-weight:600;cursor:pointer;transition:0.3s;}
+.contact-form button:hover{background:#0956c1;}
+
+.contact-info{flex:1;min-width:280px;background:var(--white);padding:30px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);}
+.contact-info h2{margin-bottom:20px;color:var(--primary);}
+.contact-info p{margin-bottom:12px;font-size:14px;color:var(--text);}
+.contact-info a{color:var(--primary);text-decoration:none;}
+.contact-info a:hover{text-decoration:underline;}
+.map-placeholder{background:#e0e0e0;height:200px;border-radius:12px;margin-top:15px;display:flex;align-items:center;justify-content:center;color:#555;font-size:14px;}
+
+footer{background:var(--white);border-top:1px solid #e5e7eb;text-align:center;padding:20px;color:var(--muted);margin-top:40px;}
+@media(max-width:800px){.contact-container{flex-direction:column;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="brand">🚍 BusTrack</div>
+      <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="tracking.html">Live Tracking</a>
+      <a href="booking.html">Booking</a>
+      <a href="sms.html">SMS Fallback</a>
+      <a href="eta.html">ETA Notifications</a>
+      <a href="alerts.html">Live Alerts</a>
+      <a href="drivers.html">Driver Info</a>
+      <a href="routes.html">Routes & Staff</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html">Admin Login</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Contact Us</h1>
+  <p>We’re here to help you with real-time bus tracking, ticket booking, and SMS support.</p>
+</section>
+
+<section class="contact-container">
+  <div class="contact-form">
+    <h2>Send a Message</h2>
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <input type="text" placeholder="Subject" required>
+    <textarea rows="5" placeholder="Your Message" required></textarea>
+    <button onclick="alert('Message sent!')">Send Message</button>
+  </div>
+
+  <div class="contact-info">
+    <h2>Support Information</h2>
+    <p><strong>Phone:</strong> <a href="tel:+911234567890">+91 12345 67890</a></p>
+    <p><strong>Email:</strong> <a href="mailto:support@bustrack.com">support@bustrack.com</a></p>
+    <p><strong>Address:</strong> 123 Main Street, City Center, India</p>
+    <div class="map-placeholder">Map Placeholder</div>
+  </div>
+</section>
+
+<footer>© <span id="year"></span> BusTrack | Contact Us</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+function toggleMenu(){document.getElementById("mobileMenu").classList.toggle("show");}
+</script>
+
+</body>
+</html>

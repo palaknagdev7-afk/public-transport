@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin | BusTrack</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary:#0b76ef;
+      --secondary:#1db954;
+      --accent:#ff7f50;
+      --text:#0f172a;
+      --muted:#6b7280;
+      --bg:#f8fafc;
+      --white:#ffffff;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);line-height:1.6}
+
+    header{background:var(--white);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:100}
+    .container{max-width:1150px;margin:0 auto;padding:0 20px}
+    nav{display:flex;justify-content:space-between;align-items:center;padding:15px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:var(--primary)}
+    .hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer}
+    .hamburger span{width:25px;height:3px;background:var(--primary);border-radius:2px;transition:0.3s}
+    .mobile-menu{display:none;flex-direction:column;gap:12px;background:var(--white);padding:15px;border-top:1px solid #eee}
+    .mobile-menu a{color:var(--muted);text-decoration:none;font-weight:500}
+    .mobile-menu a:hover{color:var(--primary)}
+
+    .hero{padding:50px 20px;text-align:center;background:linear-gradient(135deg,#0b76ef1a,#1db9541a)}
+    .hero h1{font-size:32px;margin-bottom:12px;color:var(--primary)}
+    .hero p{color:var(--muted);max-width:700px;margin:0 auto 24px}
+
+    .dashboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:40px}
+    .dash-card{background:var(--white);padding:25px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08);text-align:center;transition:transform 0.3s}
+    .dash-card:hover{transform:translateY(-5px)}
+    .dash-card h3{margin-bottom:12px;color:var(--primary)}
+    .dash-card p{color:var(--muted)}
+    .dash-card button{margin-top:15px;padding:10px 16px;border:none;border-radius:8px;background:var(--secondary);color:white;font-weight:600;cursor:pointer}
+    .dash-card button:hover{background:#17a646}
+
+    /* Login Section */
+    .login-section{max-width:400px;margin:40px auto;background:var(--white);padding:30px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+    .login-section h2{margin-bottom:20px;color:var(--primary);text-align:center}
+    .login-section input{width:100%;padding:12px;margin-bottom:15px;border:1px solid #d1d5db;border-radius:8px}
+    .login-section button{width:100%;padding:12px;border:none;border-radius:8px;background:var(--primary);color:white;font-weight:600;cursor:pointer}
+    .login-section button:hover{background:#0960c2}
+
+    footer{background:var(--white);border-top:1px solid #e5e7eb;text-align:center;padding:20px;font-size:14px;color:var(--muted);margin-top:40px}
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand">🚍 BusTrack Admin</div>
+
+        <div class="hamburger" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="drivers.html">Driver Info</a>
+        <a href="routes.html">Routes & Staff</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html">Contact</a>
+        <a href="commuters.html">Commuters</a>
+        <a href="admin.html">Admin Login</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO / Login -->
+  <section class="hero">
+    <div class="login-section">
+      <h2>Admin Login</h2>
+      <input type="text" placeholder="Username">
+      <input type="password" placeholder="Password">
+      <button>Login</button>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section class="container">
+    <h2 style="text-align:center;color:var(--primary);margin-bottom:30px;">Admin Dashboard</h2>
+    <div class="dashboard">
+      <div class="dash-card">
+        <h3>🚌 Manage Buses</h3>
+        <p>Add, remove, or update bus info, routes, and schedules.</p>
+        <button onclick="location.href='routes.html'">Manage</button>
+      </div>
+      <div class="dash-card">
+        <h3>👨‍✈️ Manage Drivers</h3>
+        <p>Verify drivers, update profiles, and track ratings.</p>
+        <button onclick="location.href='drivers.html'">Manage</button>
+      </div>
+      <div class="dash-card">
+        <h3>👥 Commuters</h3>
+        <p>View commuter registrations, bookings, and activity.</p>
+        <button onclick="location.href='commuters.html'">View</button>
+      </div>
+      <div class="dash-card">
+        <h3>🎟 Ticket Bookings</h3>
+        <p>Monitor all ticket reservations, cancellations, and payments.</p>
+        <button onclick="location.href='booking.html'">Manage</button>
+      </div>
+      <div class="dash-card">
+        <h3>🚨 Alerts & Notifications</h3>
+        <p>Create and manage bus delays, cancellations, or service alerts.</p>
+        <button onclick="location.href='alerts.html'">Manage</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>© <span id="year"></span> BusTrack | Admin Dashboard</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function toggleMenu(){
+      const menu=document.getElementById("mobileMenu");
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    }
+  </script>
+
+</body>
+</html>

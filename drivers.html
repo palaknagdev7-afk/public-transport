@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BusTrack - Drivers</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#0b76ef;
+  --secondary:#1db954;
+  --text:#0f172a;
+  --muted:#6b7280;
+  --bg:#f8fafc;
+  --white:#fff;
+  --verified:#0fbc5a;
+  --unverified:#ff3b30;
+  --on-duty:#0fbc5a;
+  --off-duty:#ff3b30;
+  --offline:#888;
+}
+/* General styles */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:var(--bg);color:var(--text);line-height:1.6;}
+header{background:var(--white);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:100;}
+nav{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;}
+.brand{font-weight:700;font-size:20px;color:var(--primary);}
+.hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer;}
+.hamburger span{width:25px;height:3px;background:var(--primary);border-radius:2px;transition:0.3s;}
+.mobile-menu{display:none;flex-direction:column;gap:12px;padding:15px;border-top:1px solid #eee;background:var(--white);}
+.mobile-menu.show{display:flex;}
+.hero{text-align:center;padding:60px 20px;background:linear-gradient(135deg,#0b76ef1a,#1db9541a);}
+.hero h1{font-size:36px;margin-bottom:12px;}
+.hero p{color:var(--muted);font-size:16px;margin-bottom:20px;}
+section{padding:40px 20px;max-width:1200px;margin:0 auto;}
+.filter-bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:30px;}
+.filter-bar input, .filter-bar select{padding:12px;border:1px solid #d1d5db;border-radius:8px;min-width:150px;flex:1;cursor:pointer;}
+.filter-bar button{padding:12px 20px;border:none;border-radius:8px;background:var(--primary);color:#fff;font-weight:600;cursor:pointer;transition:0.3s;}
+.filter-bar button:hover{background:#0956c1;}
+.drivers-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.driver-card{background:var(--white);padding:20px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);transition:transform 0.3s;position:relative;}
+.driver-card:hover{transform:translateY(-5px);}
+.driver-photo{width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:12px;}
+.driver-name{font-size:18px;font-weight:600;margin-bottom:6px;}
+.driver-info{font-size:14px;color:var(--muted);margin-bottom:6px;}
+.status-badge{display:inline-block;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;color:#fff;margin-bottom:6px;}
+.status-badge.verified{background:var(--verified);}
+.status-badge.unverified{background:var(--unverified);}
+.availability{font-size:13px;margin-bottom:6px;font-weight:600;}
+.availability.on-duty{color:var(--on-duty);}
+.availability.off-duty{color:var(--off-duty);}
+.availability.offline{color:var(--offline);}
+.rating{color:#facc15;margin-bottom:6px;}
+.stats{font-size:13px;color:#888;margin-bottom:8px;}
+.award-badge{display:inline-block;padding:4px 8px;border-radius:8px;font-size:12px;font-weight:600;background:#f59e0b;color:#fff;margin-bottom:8px;}
+.driver-actions{display:flex;gap:10px;margin-top:8px;}
+.driver-actions button{flex:1;padding:8px 12px;border:none;border-radius:8px;font-weight:600;color:#fff;cursor:pointer;transition:0.3s;}
+.contact-btn{background:var(--secondary);}
+.contact-btn:hover{background:#17a646;}
+.profile-btn{background:var(--primary);}
+.profile-btn:hover{background:#0956c1;}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:200;}
+.modal-content{background:var(--white);padding:20px;border-radius:16px;max-width:500px;width:90%;position:relative;}
+.modal-close{position:absolute;top:10px;right:15px;font-size:18px;font-weight:700;cursor:pointer;}
+.modal-content h2{margin-bottom:12px;color:var(--primary);}
+.modal-content p{margin-bottom:10px;}
+footer{background:var(--white);border-top:1px solid #e5e7eb;text-align:center;padding:20px;color:var(--muted);margin-top:40px;}
+@media(max-width:600px){.filter-bar{flex-direction:column;}.driver-card{text-align:center;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="brand">🚍 BusTrack</div>
+      <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="tracking.html">Live Tracking</a>
+      <a href="booking.html">Booking</a>
+      <a href="sms.html">SMS Fallback</a>
+      <a href="eta.html">ETA Notifications</a>
+      <a href="alerts.html">Live Alerts</a>
+      <a href="drivers.html">Driver Info</a>
+      <a href="routes.html">Routes & Staff</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html">Admin Login</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Meet Our Drivers</h1>
+  <p>View verified drivers, check their experience, routes, and contact options.</p>
+</section>
+
+<section>
+  <div class="filter-bar">
+    <input type="text" placeholder="Search by name">
+    <select>
+      <option selected disabled>Filter by Bus Number</option>
+      <option>101</option>
+      <option>202</option>
+      <option>303</option>
+      <option>404</option>
+    </select>
+    <select>
+      <option selected disabled>Filter by Route</option>
+      <option>Main St → Airport</option>
+      <option>Downtown → Mall</option>
+      <option>Station → Park</option>
+    </select>
+    <button onclick="alert('Filter applied')">Apply</button>
+  </div>
+
+  <div class="drivers-container">
+    <!-- Example Driver Card -->
+    <div class="driver-card">
+      <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Driver Photo" class="driver-photo">
+      <div class="driver-name">John Doe</div>
+      <div class="driver-info">Bus No: 101 | Route: Main St → Airport</div>
+      <div class="status-badge verified">Verified</div>
+      <div class="availability on-duty">On Duty</div>
+      <div class="rating">⭐ ⭐ ⭐ ⭐ ☆ (4.0)</div>
+      <div class="stats">Experience: 5 yrs | Trips: 1200 | On-time: 95%</div>
+      <div class="award-badge">Driver of the Month</div>
+      <div class="driver-actions">
+        <button class="contact-btn" onclick="alert('Contact John Doe')">Contact</button>
+        <button class="profile-btn" onclick="openModal('modal1')">View Profile</button>
+      </div>
+    </div>
+
+    <div class="driver-card">
+      <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Driver Photo" class="driver-photo">
+      <div class="driver-name">Jane Smith</div>
+      <div class="driver-info">Bus No: 202 | Route: Downtown → Mall</div>
+      <div class="status-badge verified">Verified</div>
+      <div class="availability off-duty">Off Duty</div>
+      <div class="rating">⭐ ⭐ ⭐ ⭐ ⭐ (5.0)</div>
+      <div class="stats">Experience: 7 yrs | Trips: 1500 | On-time: 98%</div>
+      <div class="award-badge">Safety Star</div>
+      <div class="driver-actions">
+        <button class="contact-btn" onclick="alert('Contact Jane Smith')">Contact</button>
+        <button class="profile-btn" onclick="openModal('modal2')">View Profile</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal Examples -->
+<div class="modal" id="modal1">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('modal1')">&times;</span>
+    <h2>John Doe</h2>
+    <p><strong>Bus No:</strong> 101</p>
+    <p><strong>Route:</strong> Main St → Airport</p>
+    <p><strong>Experience:</strong> 5 yrs | Trips: 1200 | On-time: 95%</p>
+    <p><strong>Availability:</strong> On Duty</p>
+    <p><strong>Contact:</strong> +91 9876543210 | john@example.com</p>
+    <p><strong>Reviews:</strong> Excellent driver, very punctual!</p>
+    <p><strong>Shift:</strong> 6 AM - 2 PM</p>
+  </div>
+</div>
+
+<div class="modal" id="modal2">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('modal2')">&times;</span>
+    <h2>Jane Smith</h2>
+    <p><strong>Bus No:</strong> 202</p>
+    <p><strong>Route:</strong> Downtown → Mall</p>
+    <p><strong>Experience:</strong> 7 yrs | Trips: 1500 | On-time: 98%</p>
+    <p><strong>Availability:</strong> Off Duty</p>
+    <p><strong>Contact:</strong> +91 9876543211 | jane@example.com</p>
+    <p><strong>Reviews:</strong> Very friendly and safe driver.</p>
+    <p><strong>Shift:</strong> 2 PM - 10 PM</p>
+  </div>
+</div>
+
+<footer>© <span id="year"></span> BusTrack | Drivers</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+function toggleMenu(){document.getElementById("mobileMenu").classList.toggle("show");}
+
+// Modal functions
+function openModal(id){document.getElementById(id).style.display='flex';}
+function closeModal(id){document.getElementById(id).style.display='none';}
+window.onclick = function(event){
+  if(event.target.classList.contains('modal')){
+    event.target.style.display='none';
+  }
+}
+</script>
+</body>
+</html>

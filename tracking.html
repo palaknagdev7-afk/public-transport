@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BusTrack - Live Bus Tracking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body.tracking-page .hero {
+      background: linear-gradient(135deg, #0b76ef1a, #1db9541a);
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .search-panel {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 40px auto;
+      max-width: 900px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .search-group {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 200px;
+    }
+    .search-group label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #0b76ef;
+    }
+    .search-group input,
+    .search-group select {
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .btn-primary {
+      background: #0b76ef;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      padding: 14px 25px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      align-self: center;
+      margin-top: 20px;
+    }
+    .btn-primary:hover { background: #0956c1; }
+
+    .results-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 40px auto;
+    }
+    .bus-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.3s;
+      text-align: center;
+    }
+    .bus-card:hover { transform: translateY(-5px); }
+    .bus-card h3 { margin-bottom: 10px; color: #0b76ef; }
+    .bus-card p { margin: 6px 0; font-size: 14px; color: #555; }
+    .status {
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 8px;
+      display: inline-block;
+      color: #fff;
+    }
+    .on-time { background: #1db954; }
+    .delayed { background: #ff9800; }
+    .cancelled { background: #b30000; }
+  </style>
+</head>
+<body class="tracking-page">
+
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand">🚍 BusTrack</div>
+        <div class="hamburger" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="tracking.html">Live Tracking</a>
+        <a href="booking.html">Booking</a>
+        <a href="sms.html">SMS Info</a>
+        <a href="eta.html">ETA Notifications</a>
+        <a href="alerts.html">Live Alerts</a>
+        <a href="drivers.html">Driver Info</a>
+        <a href="routes.html">Routes & Staff</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html">Contact</a>
+        <a href="admin.html">Admin Login</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Live Bus Tracking</h1>
+    <p>Track your bus in real-time by Bus Number, Route, or Destination.</p>
+  </section>
+
+  <!-- SEARCH PANEL -->
+  <section>
+    <div class="search-panel">
+      <div class="search-group">
+        <label>Bus Number</label>
+        <input type="text" placeholder="Enter Bus Number">
+      </div>
+      <div class="search-group">
+        <label>Route</label>
+        <input type="text" placeholder="Enter Route Name">
+      </div>
+      <div class="search-group">
+        <label>From</label>
+        <input type="text" placeholder="Starting Stop">
+      </div>
+      <div class="search-group">
+        <label>To</label>
+        <input type="text" placeholder="Destination Stop">
+      </div>
+      <button class="btn-primary" onclick="alert('Search functionality coming soon!')">Track Bus</button>
+    </div>
+  </section>
+
+  <!-- BUS RESULTS -->
+  <section>
+    <div class="results-cards">
+      <div class="bus-card">
+        <h3>Bus 101</h3>
+        <p><strong>Route:</strong> Main Street – Airport</p>
+        <p><strong>From:</strong> Main Street</p>
+        <p><strong>To:</strong> Airport</p>
+        <p><strong>Current Location:</strong> Downtown</p>
+        <span class="status on-time">On Time</span>
+      </div>
+      <div class="bus-card">
+        <h3>Bus 102</h3>
+        <p><strong>Route:</strong> City Center – Station</p>
+        <p><strong>From:</strong> City Center</p>
+        <p><strong>To:</strong> Station</p>
+        <p><strong>Current Location:</strong> Central Park</p>
+        <span class="status delayed">Delayed</span>
+      </div>
+      <div class="bus-card">
+        <h3>Bus 103</h3>
+        <p><strong>Route:</strong> Market – Airport</p>
+        <p><strong>From:</strong> Market</p>
+        <p><strong>To:</strong> Airport</p>
+        <p><strong>Current Location:</strong> Riverside</p>
+        <span class="status cancelled">Cancelled</span>
+      </div>
+      <!-- Add more buses dynamically -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>© <span id="year"></span> BusTrack | Live Bus Tracking</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function toggleMenu(){
+      const menu=document.getElementById("mobileMenu");
+      menu.classList.toggle("show");
+    }
+  </script>
+
+</body>
+</html>

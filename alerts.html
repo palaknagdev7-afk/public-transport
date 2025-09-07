@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BusTrack - Live Bus Alerts</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#0b76ef;
+  --secondary:#1db954;
+  --text:#0f172a;
+  --muted:#6b7280;
+  --bg:#f8fafc;
+  --white:#fff;
+  --cancelled-gradient:linear-gradient(135deg,#ff3b30,#ff6b5c);
+  --delayed-gradient:linear-gradient(135deg,#ff9500,#ffb347);
+  --extra-gradient:linear-gradient(135deg,#0fbc5a,#3cd070);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:var(--bg);color:var(--text);line-height:1.6;}
+header{background:var(--white);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:100;}
+nav{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;}
+.brand{font-weight:700;font-size:20px;color:var(--primary);}
+.hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer;}
+.hamburger span{width:25px;height:3px;background:var(--primary);border-radius:2px;transition:0.3s;}
+.mobile-menu{display:none;flex-direction:column;gap:12px;padding:15px;border-top:1px solid #eee;background:var(--white);}
+.mobile-menu.show{display:flex;}
+.hero{text-align:center;padding:60px 20px;background:linear-gradient(135deg,#0b76ef1a,#1db9541a);}
+.hero h1{font-size:36px;margin-bottom:12px;}
+.hero p{color:var(--muted);font-size:16px;margin-bottom:20px;}
+section{padding:40px 20px;max-width:1000px;margin:0 auto;}
+.filter-bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:30px;}
+.filter-bar select{padding:12px;border:1px solid #d1d5db;border-radius:8px;min-width:150px;flex:1;cursor:pointer;}
+.filter-bar button{padding:12px 20px;border:none;border-radius:8px;background:var(--primary);color:#fff;font-weight:600;cursor:pointer;transition:0.3s;}
+.filter-bar button:hover{background:#0956c1;}
+.alert-container{display:flex;gap:20px;overflow-x:auto;padding-bottom:20px;}
+.alert-card{flex:0 0 280px;background:var(--white);border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,0.1);padding:20px;position:relative;transition:transform 0.3s;}
+.alert-card:hover{transform:scale(1.05);}
+.alert-card h3{font-size:18px;margin-bottom:8px;color:var(--white);}
+.alert-card p{font-size:14px;color:#f0f0f0;margin-bottom:10px;}
+.alert-card .timestamp{font-size:12px;color:#e0e0e0;margin-bottom:12px;}
+.alert-card .notify-btn{padding:10px 16px;border:none;border-radius:8px;background:var(--secondary);color:#fff;font-weight:600;cursor:pointer;transition:0.3s;}
+.alert-card .notify-btn:hover{background:#17a646;}
+.alert-card.cancelled{background:var(--cancelled-gradient);}
+.alert-card.delayed{background:var(--delayed-gradient);}
+.alert-card.extra{background:var(--extra-gradient);}
+footer{background:var(--white);border-top:1px solid #e5e7eb;text-align:center;padding:20px;color:var(--muted);margin-top:40px;}
+/* Scrollbar styling */
+.alert-container::-webkit-scrollbar{height:8px;}
+.alert-container::-webkit-scrollbar-thumb{background:#ccc;border-radius:4px;}
+.alert-container::-webkit-scrollbar-track{background:#f8fafc;}
+@media(max-width:600px){.alert-card{flex:0 0 220px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="brand">🚍 BusTrack</div>
+      <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="tracking.html">Live Tracking</a>
+      <a href="booking.html">Booking</a>
+      <a href="sms.html">SMS Fallback</a>
+      <a href="eta.html">ETA Notifications</a>
+      <a href="alerts.html">Live Alerts</a>
+      <a href="drivers.html">Driver Info</a>
+      <a href="routes.html">Routes & Staff</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html">Admin Login</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Live Bus Alerts</h1>
+  <p>Check cancelled, delayed, or extra buses in real-time. Swipe through alerts to stay updated!</p>
+</section>
+
+<section>
+  <div class="filter-bar">
+    <select>
+      <option selected disabled>Bus Number</option>
+      <option>101</option>
+      <option>202</option>
+      <option>303</option>
+      <option>404</option>
+    </select>
+    <select>
+      <option selected disabled>Route</option>
+      <option>Main St → Airport</option>
+      <option>Downtown → Mall</option>
+      <option>Station → Park</option>
+    </select>
+    <select>
+      <option selected disabled>Alert Type</option>
+      <option>Cancelled</option>
+      <option>Delayed</option>
+      <option>Extra</option>
+    </select>
+    <button onclick="alert('Filter applied')">Apply</button>
+  </div>
+
+  <div class="alert-container">
+    <div class="alert-card cancelled">
+      <h3>Bus 101</h3>
+      <p>Main St → Airport<br>Service Cancelled due to maintenance.</p>
+      <div class="timestamp">Updated: 12:00 PM</div>
+      <button class="notify-btn">Notify Me</button>
+    </div>
+    <div class="alert-card delayed">
+      <h3>Bus 202</h3>
+      <p>Downtown → Mall<br>Delayed by 15 mins due to traffic.</p>
+      <div class="timestamp">Updated: 12:05 PM</div>
+      <button class="notify-btn">Notify Me</button>
+    </div>
+    <div class="alert-card extra">
+      <h3>Bus 303</h3>
+      <p>Station → Park<br>Extra bus added during peak hours.</p>
+      <div class="timestamp">Updated: 12:10 PM</div>
+      <button class="notify-btn">Notify Me</button>
+    </div>
+    <div class="alert-card delayed">
+      <h3>Bus 404</h3>
+      <p>Airport → City Center<br>Delayed by 5 mins due to traffic.</p>
+      <div class="timestamp">Updated: 12:12 PM</div>
+      <button class="notify-btn">Notify Me</button>
+    </div>
+  </div>
+</section>
+
+<footer>© <span id="year"></span> BusTrack | Live Alerts</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+function toggleMenu(){document.getElementById("mobileMenu").classList.toggle("show");}
+</script>
+
+</body>
+</html>

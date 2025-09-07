@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Commuters | BusTrack</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary:#0b76ef;
+      --secondary:#1db954;
+      --accent:#ff7f50;
+      --text:#0f172a;
+      --muted:#6b7280;
+      --bg:#f8fafc;
+      --white:#ffffff;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);line-height:1.6}
+
+    header{background:var(--white);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:100}
+    .container{max-width:1150px;margin:0 auto;padding:0 20px}
+    nav{display:flex;justify-content:space-between;align-items:center;padding:15px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:var(--primary)}
+    .hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer}
+    .hamburger span{width:25px;height:3px;background:var(--primary);border-radius:2px;transition:0.3s}
+    .mobile-menu{display:none;flex-direction:column;gap:12px;background:var(--white);padding:15px;border-top:1px solid #eee}
+    .mobile-menu a{color:var(--muted);text-decoration:none;font-weight:500}
+    .mobile-menu a:hover{color:var(--primary)}
+
+    .hero{padding:50px 20px;text-align:center;background:linear-gradient(135deg,#0b76ef1a,#1db9541a)}
+    .hero h1{font-size:32px;margin-bottom:12px;color:var(--primary)}
+    .hero p{color:var(--muted);max-width:700px;margin:0 auto 24px}
+
+    /* COMMUTERS FEATURES */
+    .commuters-section{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:40px}
+    .commute-card{background:var(--white);padding:20px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.08);text-align:center;transition:transform 0.3s}
+    .commute-card:hover{transform:translateY(-5px)}
+    .commute-card h3{margin-bottom:12px;color:var(--primary)}
+    .commute-card p{color:var(--muted)}
+    .commute-card button{margin-top:15px;padding:10px 16px;border:none;border-radius:8px;background:var(--secondary);color:white;font-weight:600;cursor:pointer}
+    .commute-card button:hover{background:#17a646}
+
+    /* SEARCH BAR */
+    .search-bar{margin:30px auto;display:flex;gap:10px;max-width:600px}
+    .search-bar input,.search-bar select{flex:1;padding:12px;border:1px solid #d1d5db;border-radius:8px}
+    .search-bar button{padding:12px 20px;border:none;border-radius:8px;background:var(--primary);color:white;font-weight:600;cursor:pointer}
+
+    /* SIGNUP FORM */
+    .signup-section{max-width:500px;margin:50px auto;background:var(--white);padding:30px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+    .signup-section h2{margin-bottom:20px;color:var(--primary);text-align:center}
+    .signup-section input, .signup-section select{width:100%;padding:12px;margin-bottom:15px;border:1px solid #d1d5db;border-radius:8px}
+    .signup-section button{width:100%;padding:12px;border:none;border-radius:8px;background:var(--primary);color:white;font-weight:600;cursor:pointer}
+    .signup-section button:hover{background:#0960c2}
+
+    footer{background:var(--white);border-top:1px solid #e5e7eb;text-align:center;padding:20px;font-size:14px;color:var(--muted);margin-top:40px}
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand">🚍 BusTrack</div>
+
+        <div class="hamburger" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="drivers.html">Driver Info</a>
+        <a href="routes.html">Routes & Staff</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html">Contact</a>
+        <a href="commuters.html">Commuters</a>
+        <a href="admin.html">Admin Login</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Welcome Commuters!</h1>
+    <p>Access all the tools you need to track buses, check live ETAs, book tickets, and stay updated with real-time alerts.</p>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Enter Bus No / Route / Stop">
+      <select>
+        <option value="track">Track Bus</option>
+        <option value="book">Book Ticket</option>
+      </select>
+      <button>Go</button>
+    </div>
+  </section>
+
+  <!-- COMMUTERS FEATURES -->
+  <section>
+    <div class="container commuters-section">
+      <div class="commute-card">
+        <h3>🚌 Live Bus Tracking</h3>
+        <p>Check the real-time location of buses and estimated arrival times at your stop.</p>
+        <button onclick="location.href='tracking.html'">Track Now</button>
+      </div>
+      <div class="commute-card">
+        <h3>🎟 Book Tickets Online</h3>
+        <p>Reserve your seat quickly and receive QR/SMS confirmations instantly.</p>
+        <button onclick="location.href='booking.html'">Book Now</button>
+      </div>
+      <div class="commute-card">
+        <h3>📲 SMS Updates</h3>
+        <p>Receive essential bus info like ETA, ticket status, and pricing even without internet.</p>
+        <button onclick="location.href='sms.html'">Get Info</button>
+      </div>
+      <div class="commute-card">
+        <h3>⏱ ETA Notifications</h3>
+        <p>Stay informed with live bus arrival notifications directly on your device.</p>
+        <button onclick="location.href='eta.html'">View ETA</button>
+      </div>
+      <div class="commute-card">
+        <h3>🚨 Alerts & Announcements</h3>
+        <p>Get notified about delays, cancellations, route changes, or extra buses immediately.</p>
+        <button onclick="location.href='alerts.html'">View Alerts</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNUP FORM -->
+  <section class="signup-section">
+    <h2>Commuter Signup</h2>
+    <input type="text" placeholder="Full Name">
+    <input type="email" placeholder="Email Address">
+    <input type="tel" placeholder="Phone Number">
+    <input type="password" placeholder="Password">
+    <input type="password" placeholder="Confirm Password">
+    <select>
+      <option value="">Select Favorite Route (Optional)</option>
+      <option value="route1">Route 1</option>
+      <option value="route2">Route 2</option>
+      <option value="route3">Route 3</option>
+    </select>
+    <button>Sign Up</button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>© <span id="year"></span> BusTrack | Real-Time Bus Tracking & Booking</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function toggleMenu(){
+      const menu=document.getElementById("mobileMenu");
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BusTrack - Ticket Booking</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+body.booking-page { font-family: 'Inter', sans-serif; background: #f8fafc; margin:0; color:#0f172a; }
+
+/* HERO */
+.hero { text-align:center; padding:60px 20px; background:linear-gradient(135deg,#1db9541a,#0b76ef1a);}
+.hero h1 { font-size:36px; margin-bottom:12px;}
+.hero p { font-size:16px; color:#555; }
+
+/* HEADER */
+header { background:#fff; border-bottom:1px solid #e5e7eb; position:sticky; top:0; z-index:100;}
+header nav { display:flex; justify-content:space-between; align-items:center; padding:15px 20px;}
+.brand { font-weight:700; font-size:20px; color:#0b76ef;}
+.hamburger { display:flex; flex-direction:column; gap:4px; cursor:pointer;}
+.hamburger span { width:25px; height:3px; background:#0b76ef; border-radius:2px; transition:0.3s;}
+.mobile-menu { display:none; flex-direction:column; gap:12px; padding:15px; border-top:1px solid #eee; background:#fff; }
+.mobile-menu.show { display:flex; }
+
+/* BOOKING FORM PANEL */
+.booking-container { display:grid; grid-template-columns:1fr 1fr; gap:30px; max-width:1000px; margin:40px auto; padding:30px; background:#fff; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); }
+.booking-group { display:flex; flex-direction:column; margin-bottom:12px; }
+.booking-group label { font-weight:600; margin-bottom:6px; color:#1db954; display:block;}
+.booking-group input, .booking-group select { padding:12px; border-radius:8px; border:1px solid #d1d5db; font-size:14px; }
+
+/* SEAT GRID */
+.seat-grid { display:grid; grid-template-columns:repeat(4,50px); gap:10px; margin-top:20px; justify-content:center;}
+.seat { width:50px;height:50px; background:#e5e7eb; border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:0.3s; position:relative;}
+.seat.selected { background:#0b76ef; color:#fff;}
+.seat.occupied { background:#b30000; cursor:not-allowed; color:#fff;}
+.seat.window::after { content:"W"; position:absolute; bottom:2px; right:2px; font-size:10px; color:#fff;}
+.seat.aisle::after { content:"A"; position:absolute; bottom:2px; right:2px; font-size:10px; color:#fff;}
+.seat.accessible { background:#17a646; color:#fff; }
+
+/* SUMMARY CARD */
+.summary-card { background:#f3f4f6; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-top:20px;}
+.summary-card h3 { color:#0b76ef; margin-bottom:12px;}
+.summary-card p { margin:6px 0; }
+
+/* BUTTONS */
+.btn-primary, .btn-secondary { padding:14px 25px; border-radius:10px; font-weight:600; border:none; cursor:pointer; margin-top:15px; }
+.btn-primary { background:#0b76ef; color:#fff; transition:0.3s; }
+.btn-primary:hover { background:#0956c1; }
+.btn-secondary { background:#1db954; color:#fff; transition:0.3s; }
+.btn-secondary:hover { background:#17a646; }
+
+/* PROMO CODE */
+.promo-group { display:flex; gap:10px; margin-top:10px;}
+.promo-group input { flex:1; }
+.promo-group button { padding:12px 20px; }
+
+/* LEGEND */
+.legend { display:flex; justify-content:center; gap:15px; margin-top:20px; font-size:14px;}
+.legend span { display:flex; align-items:center; gap:5px;}
+.legend .box { width:20px;height:20px; border-radius:4px; }
+
+/* MODAL */
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; }
+.modal-content { background:#fff; padding:30px; border-radius:12px; max-width:500px; width:90%; text-align:center; }
+.modal-content h3 { margin-bottom:20px; color:#0b76ef; }
+.modal-content button { margin-top:20px; }
+
+/* FOOTER */
+footer { background:#fff; border-top:1px solid #e5e7eb; text-align:center; padding:20px; color:#6b7280; margin-top:40px; }
+
+/* RESPONSIVE */
+@media(max-width:800px){ .booking-container{grid-template-columns:1fr;} .seat-grid{grid-template-columns:repeat(4,40px);} }
+</style>
+</head>
+<body class="booking-page">
+
+<!-- HEADER -->
+<header>
+  <div class="container">
+    <nav>
+      <div class="brand">🚍 BusTrack</div>
+      <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="tracking.html">Live Tracking</a>
+      <a href="booking.html">Booking</a>
+      <a href="sms.html">SMS Info</a>
+      <a href="eta.html">ETA Notifications</a>
+      <a href="alerts.html">Live Alerts</a>
+      <a href="drivers.html">Driver Info</a>
+      <a href="routes.html">Routes & Staff</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html">Admin Login</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Online Ticket Booking</h1>
+  <p>Select your bus, seats, and pay online securely.</p>
+</section>
+
+<!-- BOOKING FORM -->
+<section class="booking-container">
+
+<!-- Passenger & Bus Info -->
+<div>
+  <div class="booking-group">
+    <label>Bus Number</label>
+    <input type="text" placeholder="Enter Bus Number">
+  </div>
+  <div class="booking-group">
+    <label>Route</label>
+    <input type="text" placeholder="Enter Route Name">
+  </div>
+  <div class="booking-group">
+    <label>Date</label>
+    <input type="date">
+  </div>
+  <div class="booking-group">
+    <label>Bus Type / Class</label>
+    <select>
+      <option value="">Select Bus Type</option>
+      <option value="ac">AC</option>
+      <option value="nonac">Non-AC</option>
+      <option value="sleeper">Sleeper</option>
+      <option value="seater">Seater</option>
+    </select>
+  </div>
+  <div class="booking-group">
+    <label>Passenger Name</label>
+    <input type="text" placeholder="Full Name">
+  </div>
+  <div class="booking-group">
+    <label>Gender</label>
+    <select>
+      <option value="">Select Gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+  <div class="booking-group">
+    <label>Age</label>
+    <input type="number" min="0" placeholder="Age">
+  </div>
+  <div class="booking-group">
+    <label>Contact Number</label>
+    <input type="tel" placeholder="Phone Number">
+  </div>
+  <div class="booking-group">
+    <label>Email</label>
+    <input type="email" placeholder="Email">
+  </div>
+</div>
+
+<!-- Seat Selection & Summary -->
+<div>
+  <h3>Select Seats</h3>
+  <div class="seat-grid">
+    <div class="seat window">1</div>
+    <div class="seat aisle">2</div>
+    <div class="seat occupied">3</div>
+    <div class="seat aisle">4</div>
+    <div class="seat window">5</div>
+    <div class="seat accessible">6</div>
+    <div class="seat">7</div>
+    <div class="seat">8</div>
+  </div>
+
+  <div class="legend">
+    <span><span class="box" style="background:#e5e7eb"></span> Available</span>
+    <span><span class="box" style="background:#0b76ef"></span> Selected</span>
+    <span><span class="box" style="background:#b30000"></span> Occupied</span>
+    <span><span class="box" style="background:#17a646"></span> Accessible</span>
+  </div>
+
+  <div class="summary-card">
+    <h3>Booking Summary</h3>
+    <p><strong>Bus:</strong> 101</p>
+    <p><strong>Route:</strong> Main Street – Airport</p>
+    <p><strong>Seats Selected:</strong> <span id="seatCount">0</span></p>
+    <p><strong>Fare (₹50/seat):</strong> ₹<span id="totalFare">0</span></p>
+    <div class="promo-group">
+      <input type="text" placeholder="Promo Code">
+      <button onclick="applyPromo()">Apply</button>
+    </div>
+  </div>
+
+  <h3>Payment Method</h3>
+  <select>
+    <option value="">Select Payment</option>
+    <option value="card">Credit / Debit Card</option>
+    <option value="upi">UPI</option>
+    <option value="wallet">Wallet</option>
+  </select>
+  <button class="btn-primary" onclick="confirmBooking()">Confirm Booking</button>
+  <button class="btn-secondary" onclick="resetSeats()">Reset Selection</button>
+</div>
+
+</section>
+
+<!-- CONFIRMATION MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3>Booking Confirmed!</h3>
+    <p>Your bus ticket has been booked successfully.</p>
+    <button onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<footer>© <span id="year"></span> BusTrack | Online Ticket Booking</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+function toggleMenu(){ const menu=document.getElementById("mobileMenu"); menu.classList.toggle("show"); }
+
+// Seats
+const seats = document.querySelectorAll('.seat');
+let selectedSeats=0;
+seats.forEach(seat=>{
+  seat.addEventListener('click', ()=>{
+    if(!seat.classList.contains('occupied')){
+      seat.classList.toggle('selected');
+      selectedSeats=document.querySelectorAll('.seat.selected').length;
+      document.getElementById('seatCount').textContent=selectedSeats;
+      document.getElementById('totalFare').textContent=selectedSeats*50;
+    }
+  });
+});
+function resetSeats(){ seats.forEach(seat=>seat.classList.remove('selected')); selectedSeats=0; document.getElementById('seatCount').textContent=0; document.getElementById('totalFare').textContent=0; }
+
+// Promo Code
+function applyPromo(){ alert("Promo Applied! 10% Discount (Example)"); }
+
+// Confirm Booking
+function confirmBooking(){ document.getElementById('modal').style.display='flex'; }
+function closeModal(){ document.getElementById('modal').style.display='none'; }
+</script>
+</body>
+</html>

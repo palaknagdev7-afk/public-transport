@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Real-Time Bus Tracking & Booking</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary:#0b76ef;
+      --secondary:#1db954;
+      --text:#0f172a;
+      --muted:#6b7280;
+      --bg:#f8fafc;
+      --white:#ffffff;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);line-height:1.6}
+
+    /* HEADER */
+    header{background:var(--white);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:100}
+    .container{max-width:1150px;margin:0 auto;padding:0 20px}
+    nav{display:flex;justify-content:space-between;align-items:center;padding:15px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:var(--primary)}
+
+    /* HAMBURGER */
+    .hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer}
+    .hamburger span{width:25px;height:3px;background:var(--primary);border-radius:2px;transition:0.3s}
+
+    /* MENU */
+    .mobile-menu{display:none;flex-direction:column;gap:12px;background:var(--white);padding:15px;border-top:1px solid #eee}
+    .mobile-menu a{color:var(--muted);text-decoration:none;font-weight:500}
+    .mobile-menu a:hover{color:var(--primary)}
+
+    /* HERO */
+    .hero{padding:60px 20px;text-align:center;background:linear-gradient(135deg,#0b76ef1a,#1db9541a)}
+    .hero h1{font-size:34px;margin-bottom:12px}
+    .hero p{color:var(--muted);max-width:600px;margin:0 auto 24px}
+    .hero-buttons{display:flex;justify-content:center;gap:12px}
+    .search-bar{margin:30px auto;display:flex;gap:10px;max-width:600px}
+    .search-bar input,.search-bar select{flex:1;padding:12px;border:1px solid #d1d5db;border-radius:8px}
+    .search-bar button{padding:12px 20px;border:none;border-radius:8px;background:var(--primary);color:white;font-weight:600;cursor:pointer}
+
+    /* SECTIONS */
+    section{padding:60px 20px}
+    section h2{text-align:center;font-size:26px;margin-bottom:30px}
+
+    /* FEATURES */
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+    .feature-card{background:var(--white);padding:20px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,0.05);text-align:center;transition:transform 0.3s}
+    .feature-card:hover{transform:translateY(-5px)}
+    .feature-card h3{margin-bottom:10px;color:var(--primary)}
+    .feature-card button{margin-top:15px;padding:10px 16px;border:none;border-radius:8px;background:var(--secondary);color:white;font-weight:600;cursor:pointer}
+    .feature-card button:hover{background:#17a646}
+
+    /* HOW IT WORKS */
+    .steps{display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
+    .step{flex:1;min-width:220px;background:var(--white);padding:20px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,0.05);text-align:center;transition:0.3s}
+    .step:hover{transform:scale(1.05)}
+    .step h3{margin-bottom:8px;color:var(--secondary)}
+    .step button{margin-top:12px;padding:8px 14px;border:none;border-radius:8px;background:var(--primary);color:white;cursor:pointer}
+
+    /* ALERTS */
+    .alerts{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:20px}
+    .alert-card{background:#f2f2f2;border:1px solid #ccc;padding:20px;border-radius:10px;box-shadow:0px 2px 5px rgba(0,0,0,0.1);transition:0.3s}
+    .alert-card:hover{transform:translateY(-5px)}
+    .alert-card h3{margin-bottom:10px;color:#b30000}
+    .alert-card button{margin-top:10px;padding:8px 14px;border:none;border-radius:8px;background:#b30000;color:white;cursor:pointer}
+
+    /* FOOTER */
+    footer{background:var(--white);border-top:1px solid #e5e7eb;text-align:center;padding:20px;font-size:14px;color:var(--muted)}
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand">🚍 BusTrack</div>
+
+        <!-- Hamburger -->
+        <div class="hamburger" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+
+      <!-- Dropdown Menu -->
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="drivers.html">Driver Info</a>
+        <a href="routes.html">Routes & Staff</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html">Contact</a>
+        <a href="commuters.html">Commuters</a>
+        <a href="admin.html">Admin Login</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Track Your Bus in Real-Time. Book Tickets Instantly.</h1>
+    <p>No more waiting at bus stops. Get live bus locations, instant ticket booking, and SMS fallback for a hassle-free journey.</p>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Enter Bus No / Route / Stop">
+      <select>
+        <option value="track">Track</option>
+        <option value="book">Book</option>
+      </select>
+      <button>Go</button>
+    </div>
+
+    <div class="hero-buttons">
+      <button class="btn btn-primary">Track Bus Now</button>
+      <button class="btn btn-secondary">Book Ticket</button>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section>
+    <h2>Features</h2>
+    <div class="container features">
+      <div class="feature-card">
+        <h3>🚌 Live Bus Tracking</h3>
+        <p>View the exact location of buses in real-time.</p>
+        <button onclick="location.href='tracking.html'">Track Now</button>
+      </div>
+      <div class="feature-card">
+        <h3>🎟 Online Ticket Booking</h3>
+        <p>Book tickets online and get QR or SMS confirmation.</p>
+        <button onclick="location.href='booking.html'">Book Now</button>
+      </div>
+      <div class="feature-card">
+        <h3>📲 SMS Fallback</h3>
+        <p>Check bus timings and bookings via SMS without internet.</p>
+        <button onclick="location.href='sms.html'">Get Info</button>
+      </div>
+      <div class="feature-card">
+        <h3>⏱ ETA Notifications</h3>
+        <p>Stay updated with accurate bus arrival alerts.</p>
+        <button onclick="location.href='eta.html'">View ETA</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <h2>How It Works</h2>
+    <div class="container steps">
+      <div class="step">
+        <h3>1. Track</h3>
+        <p>Search and see live bus positions & ETA.</p>
+        <button onclick="location.href='tracking.html'">Explore</button>
+      </div>
+      <div class="step">
+        <h3>2. Book</h3>
+        <p>Reserve seats and pay online securely.</p>
+        <button onclick="location.href='booking.html'">Explore</button>
+      </div>
+      <div class="step">
+        <h3>3. Board</h3>
+        <p>Show QR or SMS ticket to the conductor.</p>
+        <button onclick="location.href='sms.html'">Explore</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALERTS SECTION -->
+  <section>
+    <h2>🚨 Live Bus Alerts</h2>
+    <div class="container alerts">
+      <div class="alert-card">
+        <h3>❌ Cancelled Buses</h3>
+        <p>Instant updates on cancellations.</p>
+        <button onclick="location.href='alerts.html'">View Alerts</button>
+      </div>
+      <div class="alert-card">
+        <h3>⏳ Delayed Buses</h3>
+        <p>Real-time delay info with updated ETA.</p>
+        <button onclick="location.href='alerts.html'">View Alerts</button>
+      </div>
+      <div class="alert-card">
+        <h3>🔔 Service Notifications</h3>
+        <p>Updates about route changes & extra buses.</p>
+        <button onclick="location.href='alerts.html'">View Alerts</button>
+      </div>
+      <div class="alert-card">
+        <h3>📢 Passenger Alerts</h3>
+        <p>SMS & App notifications so users stay informed.</p>
+        <button onclick="location.href='alerts.html'">View Alerts</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>© <span id="year"></span> BusTrack | Real-Time Bus Tracking & Booking</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function toggleMenu(){
+      const menu=document.getElementById("mobileMenu");
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    }
+  </script>
+
+</body>
+</html>

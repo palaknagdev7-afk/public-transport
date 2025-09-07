@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BusTrack - Real-Time ETA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#0b76ef;
+  --secondary:#1db954;
+  --text:#0f172a;
+  --muted:#6b7280;
+  --bg:#f8fafc;
+  --white:#fff;
+  --on-time:#0fbc5a;
+  --delayed:#ff9500;
+  --cancelled:#ff3b30;
+  --card-gradient: linear-gradient(135deg, #0b76ef33, #1db95433);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:var(--bg);color:var(--text);line-height:1.6;}
+header{background:var(--white);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:100;}
+nav{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;}
+.brand{font-weight:700;font-size:20px;color:var(--primary);}
+.hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer;}
+.hamburger span{width:25px;height:3px;background:var(--primary);border-radius:2px;transition:0.3s;}
+.mobile-menu{display:none;flex-direction:column;gap:12px;padding:15px;border-top:1px solid #eee;background:var(--white);}
+.mobile-menu.show{display:flex;}
+.hero{text-align:center;padding:60px 20px;background:linear-gradient(135deg,#0b76ef1a,#1db9541a);}
+.hero h1{font-size:36px;margin-bottom:12px;}
+.hero p{color:var(--muted);font-size:16px;margin-bottom:20px;}
+section{padding:40px 20px;max-width:1100px;margin:0 auto;}
+.search-bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:30px;}
+.search-bar select{padding:12px;border:1px solid #d1d5db;border-radius:8px;min-width:150px;flex:1;cursor:pointer;}
+.search-bar button{padding:12px 20px;border:none;border-radius:8px;background:var(--primary);color:#fff;font-weight:600;cursor:pointer;transition:0.3s;}
+.search-bar button:hover{background:#0956c1;}
+.eta-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
+.eta-card{background:var(--card-gradient);padding:20px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);position:relative;overflow:hidden;animation:fadeIn 0.5s ease;transition:transform 0.3s;}
+.eta-card:hover{transform:translateY(-5px);}
+.eta-card h3{margin-bottom:10px;color:var(--primary);}
+.status{display:inline-block;padding:6px 12px;border-radius:12px;font-weight:600;font-size:13px;color:#fff;margin-top:6px;}
+.status.on-time{background:var(--on-time);}
+.status.delayed{background:var(--delayed);}
+.status.cancelled{background:var(--cancelled);}
+.progress-bar{width:100%;background:#d1d5db;height:6px;border-radius:8px;margin:10px 0;overflow:hidden;}
+.progress{height:6px;border-radius:8px;transition:width 0.5s;}
+.progress.on-time{background:var(--on-time);width:100%;}
+.progress.delayed{background:var(--delayed);width:60%;}
+.progress.cancelled{background:var(--cancelled);width:0;}
+.notify-btn{margin-top:10px;padding:10px 16px;border:none;border-radius:8px;background:var(--secondary);color:#fff;font-weight:600;cursor:pointer;transition:0.3s;}
+.notify-btn:hover{background:#17a646;}
+footer{background:var(--white);border-top:1px solid #e5e7eb;text-align:center;padding:20px;color:var(--muted);margin-top:40px;}
+@keyframes fadeIn{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
+@media(max-width:700px){.eta-cards{grid-template-columns:1fr;}.search-bar{flex-direction:column;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="brand">🚍 BusTrack</div>
+      <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="tracking.html">Live Tracking</a>
+      <a href="booking.html">Booking</a>
+      <a href="sms.html">SMS Fallback</a>
+      <a href="eta.html">ETA Notifications</a>
+      <a href="alerts.html">Live Alerts</a>
+      <a href="drivers.html">Driver Info</a>
+      <a href="routes.html">Routes & Staff</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html">Admin Login</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Live Bus ETA Notifications</h1>
+  <p>Get instant updates on bus arrivals and plan your journey efficiently.</p>
+</section>
+
+<section>
+  <div class="search-bar">
+    <select>
+      <option selected disabled>Bus Number</option>
+      <option>101</option>
+      <option>202</option>
+      <option>303</option>
+      <option>404</option>
+    </select>
+    <select>
+      <option selected disabled>Route</option>
+      <option>Main St → Airport</option>
+      <option>Downtown → Mall</option>
+      <option>Station → Park</option>
+    </select>
+    <select>
+      <option selected disabled>Stop</option>
+      <option>Main St</option>
+      <option>Airport</option>
+      <option>Downtown</option>
+      <option>Park</option>
+    </select>
+    <button onclick="alert('Fetching real-time ETA...')">Get ETA</button>
+  </div>
+
+  <div class="eta-cards">
+    <div class="eta-card">
+      <h3>Bus 101 | Main St → Airport</h3>
+      <p>Expected Arrival: 12:30 PM <span class="status on-time">🟢 On Time</span></p>
+      <div class="progress-bar"><div class="progress on-time"></div></div>
+      <button class="notify-btn">Notify Me</button>
+    </div>
+
+    <div class="eta-card">
+      <h3>Bus 202 | Downtown → Mall</h3>
+      <p>Expected Arrival: 12:45 PM <span class="status delayed">🟠 Delayed 10 min</span></p>
+      <div class="progress-bar"><div class="progress delayed"></div></div>
+      <button class="notify-btn">Notify Me</button>
+    </div>
+
+    <div class="eta-card">
+      <h3>Bus 303 | Station → Park</h3>
+      <p>Expected Arrival: 01:00 PM <span class="status cancelled">🔴 Cancelled</span></p>
+      <div class="progress-bar"><div class="progress cancelled"></div></div>
+      <button class="notify-btn">Notify Me</button>
+    </div>
+
+    <div class="eta-card">
+      <h3>Bus 404 | Airport → City Center</h3>
+      <p>Expected Arrival: 01:15 PM <span class="status on-time">🟢 On Time</span></p>
+      <div class="progress-bar"><div class="progress on-time"></div></div>
+      <button class="notify-btn">Notify Me</button>
+    </div>
+  </div>
+</section>
+
+<footer>© <span id="year"></span> BusTrack | Real-Time ETA</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+function toggleMenu(){document.getElementById("mobileMenu").classList.toggle("show");}
+</script>
+
+</body>
+</html>

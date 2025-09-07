@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BusTrack - User Testimonials</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#0b76ef;
+  --secondary:#1db954;
+  --text:#0f172a;
+  --muted:#6b7280;
+  --bg:#f8fafc;
+  --white:#fff;
+  --star:#facc15;
+}
+
+/* General Styles */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:var(--bg);color:var(--text);line-height:1.6;}
+header{background:var(--white);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:100;}
+nav{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;}
+.brand{font-weight:700;font-size:20px;color:var(--primary);}
+.hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer;}
+.hamburger span{width:25px;height:3px;background:var(--primary);border-radius:2px;transition:0.3s;}
+.mobile-menu{display:none;flex-direction:column;gap:12px;padding:15px;border-top:1px solid #eee;background:var(--white);}
+.mobile-menu.show{display:flex;}
+.hero{text-align:center;padding:60px 20px;background:linear-gradient(135deg,#0b76ef1a,#1db9541a);}
+.hero h1{font-size:36px;margin-bottom:12px;}
+.hero p{color:var(--muted);font-size:16px;margin-bottom:20px;}
+section{padding:40px 20px;max-width:1200px;margin:0 auto;}
+.filter-bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:30px;}
+.filter-bar select, .filter-bar input{padding:12px;border:1px solid #d1d5db;border-radius:8px;min-width:150px;flex:1;cursor:pointer;}
+.filter-bar button{padding:12px 20px;border:none;border-radius:8px;background:var(--primary);color:#fff;font-weight:600;cursor:pointer;transition:0.3s;}
+.filter-bar button:hover{background:#0956c1;}
+.testimonials-container{display:flex;overflow-x:auto;gap:20px;scroll-behavior:smooth;padding-bottom:10px;}
+.testimonial-card{min-width:280px;background:var(--white);padding:20px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);transition:transform 0.3s;flex-shrink:0;}
+.testimonial-card:hover{transform:translateY(-5px);}
+.user-photo{width:60px;height:60px;border-radius:50%;object-fit:cover;margin-bottom:10px;}
+.user-name{font-weight:600;font-size:16px;}
+.user-location{font-size:13px;color:var(--muted);margin-bottom:6px;}
+.testimonial-text{font-size:14px;color:#555;margin-bottom:10px;}
+.rating{display:flex;gap:2px;margin-bottom:10px;}
+.rating span{color:var(--star);}
+.carousel-buttons{display:flex;justify-content:center;gap:12px;margin-top:10px;}
+.carousel-buttons button{padding:8px 12px;border:none;border-radius:8px;background:var(--primary);color:#fff;font-weight:600;cursor:pointer;transition:0.3s;}
+.carousel-buttons button:hover{background:#0956c1;}
+footer{background:var(--white);border-top:1px solid #e5e7eb;text-align:center;padding:20px;color:var(--muted);margin-top:40px;}
+@media(max-width:600px){.filter-bar{flex-direction:column;}.testimonials-container{flex-direction:column;overflow-x:visible;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="brand">🚍 BusTrack</div>
+      <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="tracking.html">Live Tracking</a>
+      <a href="booking.html">Booking</a>
+      <a href="sms.html">SMS Fallback</a>
+      <a href="eta.html">ETA Notifications</a>
+      <a href="alerts.html">Live Alerts</a>
+      <a href="drivers.html">Driver Info</a>
+      <a href="routes.html">Routes & Staff</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html">Admin Login</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>What Our Users Say</h1>
+  <p>Real feedback from commuters using our real-time bus tracking and ticket booking services.</p>
+</section>
+
+<section>
+  <div class="filter-bar">
+    <select id="serviceFilter">
+      <option value="all">All Services</option>
+      <option value="tracking">Live Tracking</option>
+      <option value="booking">Booking</option>
+      <option value="sms">SMS Fallback</option>
+    </select>
+    <button onclick="filterTestimonials()">Filter</button>
+  </div>
+
+  <div class="testimonials-container" id="testimonialContainer">
+    <div class="testimonial-card" data-service="tracking">
+      <img class="user-photo" src="https://randomuser.me/api/portraits/men/31.jpg" alt="User Photo">
+      <div class="user-name">Raj Kumar</div>
+      <div class="user-location">Delhi</div>
+      <div class="rating">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+      </div>
+      <div class="testimonial-text">The live tracking feature is super accurate and saves me a lot of waiting time!</div>
+    </div>
+
+    <div class="testimonial-card" data-service="booking">
+      <img class="user-photo" src="https://randomuser.me/api/portraits/women/45.jpg" alt="User Photo">
+      <div class="user-name">Anita Sharma</div>
+      <div class="user-location">Mumbai</div>
+      <div class="rating">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
+      </div>
+      <div class="testimonial-text">Booking tickets online is seamless and very convenient. Love it!</div>
+    </div>
+
+    <div class="testimonial-card" data-service="sms">
+      <img class="user-photo" src="https://randomuser.me/api/portraits/men/47.jpg" alt="User Photo">
+      <div class="user-name">Suresh Patil</div>
+      <div class="user-location">Pune</div>
+      <div class="rating">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+      </div>
+      <div class="testimonial-text">SMS fallback works perfectly when I have low internet. Very helpful!</div>
+    </div>
+
+    <div class="testimonial-card" data-service="tracking">
+      <img class="user-photo" src="https://randomuser.me/api/portraits/women/34.jpg" alt="User Photo">
+      <div class="user-name">Priya Singh</div>
+      <div class="user-location">Bangalore</div>
+      <div class="rating">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+      </div>
+      <div class="testimonial-text">The ETA notifications are very accurate. I always know when my bus arrives!</div>
+    </div>
+  </div>
+
+  <div class="carousel-buttons">
+    <button onclick="scrollLeft()">←</button>
+    <button onclick="scrollRight()">→</button>
+  </div>
+</section>
+
+<footer>© <span id="year"></span> BusTrack | User Testimonials</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+function toggleMenu(){document.getElementById("mobileMenu").classList.toggle("show");}
+
+// Carousel Scroll
+const container = document.getElementById('testimonialContainer');
+function scrollLeft(){container.scrollBy({left:-320,behavior:'smooth'});}
+function scrollRight(){container.scrollBy({left:320,behavior:'smooth'});}
+
+// Filter Testimonials
+function filterTestimonials(){
+  const filter = document.getElementById('serviceFilter').value;
+  const cards = document.querySelectorAll('.testimonial-card');
+  cards.forEach(card=>{
+    if(filter==='all' || card.dataset.service===filter){card.style.display='block';}
+    else{card.style.display='none';}
+  });
+}
+</script>
+
+</body>
+</html>

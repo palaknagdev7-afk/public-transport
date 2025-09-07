@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BusTrack - Routes & Staff</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#0b76ef;
+  --secondary:#1db954;
+  --text:#0f172a;
+  --muted:#6b7280;
+  --bg:#f8fafc;
+  --white:#fff;
+  --active:#0fbc5a;
+  --delayed:#f59e0b;
+  --inactive:#ff3b30;
+}
+/* General styles */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:var(--bg);color:var(--text);line-height:1.6;}
+header{background:var(--white);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:100;}
+nav{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;}
+.brand{font-weight:700;font-size:20px;color:var(--primary);}
+.hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer;}
+.hamburger span{width:25px;height:3px;background:var(--primary);border-radius:2px;transition:0.3s;}
+.mobile-menu{display:none;flex-direction:column;gap:12px;padding:15px;border-top:1px solid #eee;background:var(--white);}
+.mobile-menu.show{display:flex;}
+.hero{text-align:center;padding:60px 20px;background:linear-gradient(135deg,#0b76ef1a,#1db9541a);}
+.hero h1{font-size:36px;margin-bottom:12px;}
+.hero p{color:var(--muted);font-size:16px;margin-bottom:20px;}
+section{padding:40px 20px;max-width:1200px;margin:0 auto;}
+.filter-bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:30px;}
+.filter-bar input, .filter-bar select{padding:12px;border:1px solid #d1d5db;border-radius:8px;min-width:150px;flex:1;cursor:pointer;}
+.filter-bar button{padding:12px 20px;border:none;border-radius:8px;background:var(--primary);color:#fff;font-weight:600;cursor:pointer;transition:0.3s;}
+.filter-bar button:hover{background:#0956c1;}
+.routes-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.route-card{background:var(--white);padding:20px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);transition:transform 0.3s;position:relative;}
+.route-card:hover{transform:translateY(-5px);}
+.route-name{font-size:18px;font-weight:600;margin-bottom:6px;}
+.route-info{font-size:14px;color:var(--muted);margin-bottom:8px;}
+.status-badge{display:inline-block;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;color:#fff;margin-bottom:6px;}
+.status-badge.active{background:var(--active);}
+.status-badge.delayed{background:var(--delayed);}
+.status-badge.inactive{background:var(--inactive);}
+.assigned{font-size:14px;margin-bottom:6px;}
+.staff-list{font-size:13px;color:#888;margin-bottom:6px;}
+.route-actions{display:flex;gap:10px;margin-top:8px;}
+.route-actions button{flex:1;padding:8px 12px;border:none;border-radius:8px;font-weight:600;color:#fff;cursor:pointer;transition:0.3s;}
+.details-btn{background:var(--primary);}
+.details-btn:hover{background:#0956c1;}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:200;}
+.modal-content{background:var(--white);padding:20px;border-radius:16px;max-width:500px;width:90%;position:relative;}
+.modal-close{position:absolute;top:10px;right:15px;font-size:18px;font-weight:700;cursor:pointer;}
+.modal-content h2{margin-bottom:12px;color:var(--primary);}
+.modal-content p{margin-bottom:10px;}
+footer{background:var(--white);border-top:1px solid #e5e7eb;text-align:center;padding:20px;color:var(--muted);margin-top:40px;}
+@media(max-width:600px){.filter-bar{flex-direction:column;}.route-card{text-align:center;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="brand">🚍 BusTrack</div>
+      <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="tracking.html">Live Tracking</a>
+      <a href="booking.html">Booking</a>
+      <a href="sms.html">SMS Fallback</a>
+      <a href="eta.html">ETA Notifications</a>
+      <a href="alerts.html">Live Alerts</a>
+      <a href="drivers.html">Driver Info</a>
+      <a href="routes.html">Routes & Staff</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html">Admin Login</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>All Bus Routes & Assigned Staff</h1>
+  <p>Check route details, assigned drivers, conductors, and live status of each bus.</p>
+</section>
+
+<section>
+  <div class="filter-bar">
+    <input type="text" placeholder="Search by route name">
+    <select>
+      <option selected disabled>Filter by Bus Number</option>
+      <option>101</option>
+      <option>202</option>
+      <option>303</option>
+      <option>404</option>
+    </select>
+    <select>
+      <option selected disabled>Filter by Status</option>
+      <option>Active</option>
+      <option>Delayed</option>
+      <option>Inactive</option>
+    </select>
+    <button onclick="alert('Filter applied')">Apply</button>
+  </div>
+
+  <div class="routes-container">
+    <!-- Route Card Example -->
+    <div class="route-card">
+      <div class="route-name">Route 101 - Main St → Airport</div>
+      <div class="route-info">Stops: Main St, Central Park, Airport</div>
+      <div class="status-badge active">Active</div>
+      <div class="assigned"><strong>Driver:</strong> John Doe</div>
+      <div class="staff-list"><strong>Conductor:</strong> Sarah Lee</div>
+      <div class="route-actions">
+        <button class="details-btn" onclick="openModal('modal1')">View Details</button>
+      </div>
+    </div>
+
+    <div class="route-card">
+      <div class="route-name">Route 202 - Downtown → Mall</div>
+      <div class="route-info">Stops: Downtown, City Center, Mall</div>
+      <div class="status-badge delayed">Delayed</div>
+      <div class="assigned"><strong>Driver:</strong> Jane Smith</div>
+      <div class="staff-list"><strong>Conductor:</strong> Mike Brown</div>
+      <div class="route-actions">
+        <button class="details-btn" onclick="openModal('modal2')">View Details</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal Examples -->
+<div class="modal" id="modal1">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('modal1')">&times;</span>
+    <h2>Route 101 - Main St → Airport</h2>
+    <p><strong>Bus Number:</strong> 101</p>
+    <p><strong>Driver:</strong> John Doe | Contact: +91 9876543210</p>
+    <p><strong>Conductor:</strong> Sarah Lee | Contact: +91 9876543212</p>
+    <p><strong>Stops:</strong> Main St, Central Park, Airport</p>
+    <p><strong>Status:</strong> Active</p>
+    <p><strong>Trips/Day:</strong> 12 | On-time: 95%</p>
+  </div>
+</div>
+
+<div class="modal" id="modal2">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal('modal2')">&times;</span>
+    <h2>Route 202 - Downtown → Mall</h2>
+    <p><strong>Bus Number:</strong> 202</p>
+    <p><strong>Driver:</strong> Jane Smith | Contact: +91 9876543211</p>
+    <p><strong>Conductor:</strong> Mike Brown | Contact: +91 9876543213</p>
+    <p><strong>Stops:</strong> Downtown, City Center, Mall</p>
+    <p><strong>Status:</strong> Delayed</p>
+    <p><strong>Trips/Day:</strong> 10 | On-time: 88%</p>
+  </div>
+</div>
+
+<footer>© <span id="year"></span> BusTrack | Routes & Staff</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+function toggleMenu(){document.getElementById("mobileMenu").classList.toggle("show");}
+
+// Modal functions
+function openModal(id){document.getElementById(id).style.display='flex';}
+function closeModal(id){document.getElementById(id).style.display='none';}
+window.onclick = function(event){
+  if(event.target.classList.contains('modal')){
+    event.target.style.display='none';
+  }
+}
+</script>
+
+</body>
+</html>
